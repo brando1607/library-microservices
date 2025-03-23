@@ -8,7 +8,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { BookService } from './book.service';
-import { Book, PartialBook } from './types';
+import { Book, PartialBook, NewBook } from './types';
 
 @Controller('book')
 export class BookController {
@@ -37,7 +37,7 @@ export class BookController {
   }
 
   @Post()
-  async createBook(@Body() newBook: Book): Promise<Book | string> {
+  async createBook(@Body() newBook: NewBook): Promise<Book | string> {
     try {
       const result = await this.bookService.createBook(newBook);
 

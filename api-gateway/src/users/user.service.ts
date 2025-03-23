@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { User, PartialUser } from './types';
+import { User, PartialUser, NewUser } from './types';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class UserService {
     }
   }
 
-  async createUser(newUser: User): Promise<User | string> {
+  async createUser(newUser: NewUser): Promise<User | string> {
     try {
       const result = this.client.send({ cmd: 'createUser' }, newUser);
 

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { Book, PartialBook } from './types';
+import { Book, PartialBook, NewBook } from './types';
 
 @Injectable()
 export class BookService {
@@ -31,7 +31,7 @@ export class BookService {
     }
   }
 
-  async createBook(newBook: Book): Promise<Book | string> {
+  async createBook(newBook: NewBook): Promise<Book | string> {
     try {
       const result = this.client.send({ cmd: 'createBook' }, newBook);
 

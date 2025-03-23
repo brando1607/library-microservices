@@ -8,7 +8,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User, PartialUser } from './types';
+import { User, PartialUser, NewUser } from './types';
 
 @Controller('user')
 export class UserController {
@@ -37,7 +37,7 @@ export class UserController {
   }
 
   @Post()
-  async createUser(@Body() newUser: User): Promise<User | string> {
+  async createUser(@Body() newUser: NewUser): Promise<User | string> {
     try {
       const result = await this.userService.createUser(newUser);
 
