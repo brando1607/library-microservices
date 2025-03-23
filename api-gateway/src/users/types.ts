@@ -7,3 +7,5 @@ export type User = {
   username: string;
   role: Role;
 };
+
+export type PartialUser = Partial<User>;
