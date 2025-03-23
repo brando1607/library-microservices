@@ -32,7 +32,7 @@
     "concurrently": "^9.1.2"
   },
   "scripts": {
-    "start": "concurrently \"npm run start:dev --prefix api-gateway\" \"npm run start:dev --prefix users-service\" \"npm run start:dev --prefix books-service\""
+    "dev": "concurrently \"npm run start:dev --prefix api-gateway\" \"npm run start:dev --prefix users-service\" \"npm run start:dev --prefix books-service\""
   },
   "keywords": [],
   "author": "",
