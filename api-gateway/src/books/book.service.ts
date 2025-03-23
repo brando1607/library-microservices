@@ -21,7 +21,7 @@ export class BookService {
 
   async getBook(id: string): Promise<Book | string> {
     try {
-      const result = this.client.send({ cmd: 'geBook' }, id);
+      const result = this.client.send({ cmd: 'getBook' }, id);
 
       const value = await lastValueFrom(result);
 
