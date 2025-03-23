@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
-import { Book, PartialBook, NewBook } from './types';
+import { Book, PartialBook, NewBook, Data } from './types';
 
 @Injectable()
 export class BookService {
@@ -58,6 +58,28 @@ export class BookService {
   async deleteBook(id: string): Promise<Book | string> {
     try {
       const result = this.client.send({ cmd: 'deleteBook' }, id);
+
+      const value = await lastValueFrom(result);
+
+      return value;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async takeBook({
+    userId,
+    data,
+  }: {
+    userId: string;
+    data: Data;
+  }): Promise<Book | string> {
+    try {
+      const { bookId, action } = data;
+
+      const message = action === 'take' ? 'takeBook' : 'returnBook';
+
+      const result = this.client.send({ cmd: message }, { userId, bookId });
 
       const value = await lastValueFrom(result);
 

@@ -8,7 +8,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { BookService } from './book.service';
-import { Book, PartialBook, NewBook } from './types';
+import { Book, PartialBook, NewBook, Data } from './types';
 
 @Controller('book')
 export class BookController {
@@ -65,6 +65,17 @@ export class BookController {
   async deleteBook(@Param('id') id: string): Promise<Book | string> {
     try {
       const result = await this.bookService.deleteBook(id);
+
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  @Put('userId')
+  async manageBook(@Param('userId') userId: string, @Body() data: Data) {
+    try {
+      const result = await this.bookService.takeBook({ userId, data });
 
       return result;
     } catch (error) {
