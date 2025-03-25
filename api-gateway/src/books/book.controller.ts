@@ -75,7 +75,7 @@ export class BookController {
   @Put('userId')
   async manageBook(@Param('userId') userId: string, @Body() data: Data) {
     try {
-      const result = await this.bookService.takeBook({ userId, data });
+      const result = await this.bookService.manageBook({ userId, data });
 
       return result;
     } catch (error) {

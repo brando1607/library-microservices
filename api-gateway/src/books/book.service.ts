@@ -67,7 +67,7 @@ export class BookService {
     }
   }
 
-  async takeBook({
+  async manageBook({
     userId,
     data,
   }: {
@@ -75,11 +75,7 @@ export class BookService {
     data: Data;
   }): Promise<Book | string> {
     try {
-      const { bookId, action } = data;
-
-      const message = action === 'take' ? 'takeBook' : 'returnBook';
-
-      const result = this.client.send({ cmd: message }, { userId, bookId });
+      const result = this.client.send({ cmd: 'manageBook' }, { data, userId });
 
       const value = await lastValueFrom(result);
 
