@@ -132,4 +132,15 @@ export class UserService {
       return error;
     }
   }
+  async userIsAuthor(id: string): Promise<boolean> {
+    try {
+      const isAuthor = await this.db.users.findFirst({ where: { id: id } });
+
+      // if(!isAuthor) return 'User not found'
+
+      return isAuthor?.role === 'AUTHOR';
+    } catch (error) {
+      return error;
+    }
+  }
 }

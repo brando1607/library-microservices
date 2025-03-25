@@ -90,4 +90,15 @@ export class UserController {
       return error;
     }
   }
+
+  @MessagePattern({ cmd: 'userIsAuthor' })
+  async userIsAuthor(id: string): Promise<boolean> {
+    try {
+      const isAuthor = await this.userService.userIsAuthor(id);
+
+      return isAuthor;
+    } catch (error) {
+      return error;
+    }
+  }
 }
