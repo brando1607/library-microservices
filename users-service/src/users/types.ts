@@ -12,3 +12,5 @@ export type User = {
 export type NewUser = Omit<User, 'id'>;
 
 export type PartialUser = Partial<User>;
+
+export type Action = 'take' | 'return';

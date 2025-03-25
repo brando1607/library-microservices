@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { User, NewUser, PartialUser } from './types';
+import { User, NewUser, PartialUser, Action } from './types';
 
 @Controller('user')
 export class UserController {
@@ -63,6 +63,29 @@ export class UserController {
       const users = await this.userService.deleteUser(id);
 
       return users;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @MessagePattern({ cmd: 'manageBook' })
+  async manageBook({
+    userId,
+    bookId,
+    action,
+  }: {
+    userId: string;
+    bookId: string;
+    action: Action;
+  }): Promise<User | string> {
+    try {
+      const user = await this.userService.manageBook({
+        userId,
+        bookId,
+        action,
+      });
+
+      return user;
     } catch (error) {
       return error;
     }
