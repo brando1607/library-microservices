@@ -35,19 +35,21 @@ export class BookService {
     }
   }
 
-  async createBook({
-    id,
-    newBook,
-  }: {
-    id: string;
-    newBook: NewBook;
-  }): Promise<Book | string> {
+  async createBook(newBook: NewBook): Promise<Book | string> {
     try {
       const bookExists = await this.db.books.findFirst({
         where: { name: newBook.name },
       });
 
       if (bookExists) return 'Book already exists';
+
+      //check if user is author
+
+      const userIsAuthor = await lastValueFrom(
+        this.client.send({ cmd: 'userIsAuthor' }, newBook.authorId),
+      );
+
+      if (!userIsAuthor) return 'User is not an author or not found.';
 
       const book = await this.db.books.create({ data: newBook });
 
