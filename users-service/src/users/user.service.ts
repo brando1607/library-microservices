@@ -6,7 +6,7 @@ import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('BOOKS_SERVICE') private client: ClientProxy,
+    @Inject('BOOK_SERVICE') private client: ClientProxy,
     private db: PrismaService,
   ) {}
 
