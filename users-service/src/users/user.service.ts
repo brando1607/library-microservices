@@ -81,7 +81,7 @@ export class UserService {
         where: { id: id },
       });
 
-      if (userExists) return 'Email address already in use.';
+      if (!userExists) return 'User not found';
 
       const deleteUser = await this.db.users.delete({ where: { id: id } });
 
