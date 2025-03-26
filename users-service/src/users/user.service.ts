@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User, NewUser, PartialUser, Action } from './types';
+import { User, NewUser, PartialUser, Action, Response } from './types';
 import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
@@ -22,11 +22,11 @@ export class UserService {
     }
   }
 
-  async getUser(id: string): Promise<User | string> {
+  async getUser(id: string): Promise<User | string | Response> {
     try {
       const user = await this.db.users.findFirst({ where: { id: id } });
 
-      if (!user) return 'User not found.';
+      if (!user) return { response: false, message: 'User not found.' };
 
       return user;
     } catch (error) {
@@ -99,39 +99,44 @@ export class UserService {
     userId: string;
     bookId: string;
     action: Action;
-  }): Promise<User | string> {
+  }): Promise<Response> {
     try {
       const user = await this.db.users.findFirst({ where: { id: userId } });
 
-      if (!user) return 'User not found';
+      if (!user) return { response: false };
 
       if (action === 'take') {
+        if (user.currentbooks.includes(bookId)) return { response: false };
+
         // add book
 
-        const addBook = await this.db.users.update({
+        await this.db.users.update({
           where: { id: userId },
           data: { currentbooks: [...user.currentbooks, bookId] },
         });
 
-        return addBook;
+        return { response: true };
       } else {
         const bookIndex = user.currentbooks.findIndex((e) => e === bookId);
 
-        const newCurrent = user.currentbooks.splice(bookIndex, 1);
+        if (bookIndex === -1) return { response: false };
+
+        user.currentbooks.splice(bookIndex, 1);
 
         // remove book
 
-        const removeBook = await this.db.users.update({
+        await this.db.users.update({
           where: { id: userId },
-          data: { currentbooks: [...newCurrent] },
+          data: { currentbooks: [...user.currentbooks] },
         });
 
-        return removeBook;
+        return { response: true };
       }
     } catch (error) {
       return error;
     }
   }
+
   async userIsAuthor(id: string): Promise<boolean> {
     try {
       const isAuthor = await this.db.users.findFirst({ where: { id: id } });

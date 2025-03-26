@@ -120,7 +120,11 @@ export class BookService {
       if (action === 'take') {
         //add book to user
 
-        this.client.send({ cmd: 'manageBook' }, { userId, bookId, action });
+        const addBook = await lastValueFrom(
+          this.client.send({ cmd: 'manageBook' }, { userId, bookId, action }),
+        );
+
+        if (!addBook.response) return 'User not found';
 
         //reduce stock
 
@@ -133,8 +137,11 @@ export class BookService {
       } else {
         //remove book from user
 
-        this.client.send({ cmd: 'manageBook' }, { userId, bookId, action });
+        const removeBook = await lastValueFrom(
+          this.client.send({ cmd: 'manageBook' }, { userId, bookId, action }),
+        );
 
+        if (!removeBook.response) return 'User does not have book.';
         //increase stock
 
         await this.db.books.update({
