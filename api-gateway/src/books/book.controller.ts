@@ -2,7 +2,7 @@ import {
   Controller,
   Post,
   Get,
-  Put,
+  Patch,
   Delete,
   Param,
   Body,
@@ -47,7 +47,7 @@ export class BookController {
     }
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateBook(
     @Body() newData: PartialBook,
     @Param('id') id: string,
@@ -61,7 +61,7 @@ export class BookController {
     }
   }
 
-  @Delete('id')
+  @Delete(':id')
   async deleteBook(@Param('id') id: string): Promise<Book | string> {
     try {
       const result = await this.bookService.deleteBook(id);
@@ -72,7 +72,7 @@ export class BookController {
     }
   }
 
-  @Put('userId')
+  @Patch('/manageBook/:userId')
   async manageBook(@Param('userId') userId: string, @Body() data: Data) {
     try {
       const result = await this.bookService.manageBook({ userId, data });
