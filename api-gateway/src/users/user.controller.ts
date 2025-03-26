@@ -2,7 +2,7 @@ import {
   Controller,
   Post,
   Get,
-  Put,
+  Patch,
   Delete,
   Param,
   Body,
@@ -47,7 +47,7 @@ export class UserController {
     }
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateUser(
     @Body() newData: PartialUser,
     @Param('id') id: string,
