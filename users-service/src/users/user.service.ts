@@ -87,6 +87,8 @@ export class UserService {
 
       return deleteUser;
     } catch (error) {
+      if (error.meta.cause) return error.meta.cause;
+
       return error;
     }
   }

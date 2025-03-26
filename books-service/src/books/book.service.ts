@@ -96,6 +96,8 @@ export class BookService {
 
       return deleteBook;
     } catch (error) {
+      if (error.meta.cause) return error.meta.cause;
+
       return error;
     }
   }
