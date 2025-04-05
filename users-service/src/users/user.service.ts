@@ -143,8 +143,6 @@ export class UserService {
     try {
       const isAuthor = await this.db.users.findFirst({ where: { id: id } });
 
-      // if(!isAuthor) return 'User not found'
-
       return isAuthor?.role === 'AUTHOR';
     } catch (error) {
       return error;
